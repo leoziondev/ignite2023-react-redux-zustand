@@ -6,10 +6,12 @@ import { Module } from '../components/Module'
 import { MessageCircle } from 'lucide-react'
 import { useAppDispatch, useAppSelector } from '../store'
 import { loadCourse, useCurrentLesson } from '../store/slices/player'
+import { ModuleSkeleton } from '../components/ModuleSkeleton'
 
 
 export function Player() {
     const dispatch = useAppDispatch()
+    const isCourseLoading = useAppSelector(state => state.player.isLoading)
 
     const modules = useAppSelector(state => {
         return state.player.course?.modules
@@ -26,6 +28,10 @@ export function Player() {
             document.title = `Assistindo: ${currentLesson.title}`
         }
     }, [currentLesson])
+
+    // if (isCourseLoading) {
+    //     return <ModuleSkeleton />
+    // }
 
     return (
         <div className="h-screen bg-zinc-950 text-zinc-50 flex items-center justify-center">
@@ -45,16 +51,24 @@ export function Player() {
                         <Video />
                     </div>
                     <aside className="w-full max-h-[300px] md:max-h-screen md:w-80 md:absolute md:top-0 md:bottom-0 md:right-0 border-l divide-y-2 divide-zinc-900 border-zinc-800 bg-zinc-900 overflow-y-scroll scrollbar-thin scrollbar-track-zinc-950 scrollbar-thumb-zinc-800">
-                        {modules && modules.map((module, index) => {
-                            return (
-                                <Module
-                                    key={module.id}
-                                    moduleIndex={index}
-                                    title={module.title}
-                                    amountOfLessons={module.lessons.length}
-                                />
-                            )
-                        })}
+                        {isCourseLoading ? (
+                            <>
+                                <ModuleSkeleton />
+                                <ModuleSkeleton />
+                                <ModuleSkeleton />
+                            </>
+                        ) : (
+                            modules && modules.map((module, index) => {
+                                return (
+                                    <Module
+                                        key={module.id}
+                                        moduleIndex={index}
+                                        title={module.title}
+                                        amountOfLessons={module.lessons.length}
+                                    />
+                                )
+                            })
+                        )}
                     </aside>
                 </main>
             </div>
