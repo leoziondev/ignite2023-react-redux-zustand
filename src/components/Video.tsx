@@ -1,5 +1,4 @@
 import ReactPlayer from 'react-player'
-import { useAppSelector } from '../store'
 import { useDispatch } from 'react-redux'
 import { next, useCurrentLesson } from '../store/slices/player'
 
@@ -10,6 +9,10 @@ export function Video() {
 
     function handlePlayNext() {
         dispatch(next())
+    }
+
+    if (!currentLesson) {
+        return null
     }
 
     return (
