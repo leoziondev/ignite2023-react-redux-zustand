@@ -53,6 +53,15 @@ npm i zustand
 ```
 
 ### How to run this project
+Clone this project
+```
+git clone https://github.com/leoziondev/ignite2023-react-redux-zustand.git
+```
+
+Install dependencies
+```
+npm install
+```
 Start JSON Server
 ```
 npm run server
